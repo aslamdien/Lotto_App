@@ -5,7 +5,7 @@ from random import sample
 window = tk.Tk()
 
 window.title('Lotto Generator')
-window.resizable(0, 0)
+window.geometry("500x500")
 
 # Creating the widgets
 label1 = tk.Label(window, text = '...', relief='groove', width = 2)
