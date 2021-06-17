@@ -15,6 +15,11 @@ result = StringVar()
 set1 = []
 set2 = []
 set3 = []
+amount = [0, 0, 20, 100.50, 2384, 8584, 10000000]
+
+prize1 = []
+prize2 = []
+prize3 = []
 
 class lotto:
     def __init__(self, master):
@@ -181,6 +186,7 @@ class lotto:
 
     # Lotto Generator Function
     def gen_num(self):
+        global mylist
         if len(set3) != 6:
             messagebox.showerror("Error", "Complete All The Sets")
             self.lottoEnt.config(state = "readonly")
@@ -197,8 +203,18 @@ class lotto:
                   mylist.sort()
                   result.set(mylist)
              self.lottoEnt.config(state = "normal")
-
-
+        for x in mylist:
+            if x in set1:
+                prize1.append(x)
+                self.result1 .config(text=str(len(prize1)) + "  R" + str(amount[len(prize1)]))
+        for x in mylist:
+            if x in set2:
+                prize2.append(x)
+                self.result2 .config(text=str(len(prize2)) + "  R" + str(amount[len(prize2)]))
+        for x in mylist:
+            if x in set3:
+                prize3.append(x)
+                self.result3 .config(text=str(len(prize3)) + "  R" + str(amount[len(prize3)]))
 
 x = lotto(root)
 root.mainloop()
