@@ -4,7 +4,7 @@ from tkinter import messagebox
 
 root = Tk()
 root.title("Lotto Game")
-root.geometry("500x700")
+root.geometry("500x800")
 root.config(bg = "#f8db19")
 
 my_pic = PhotoImage(file = "thelogo-removebg-preview.png")
@@ -16,10 +16,8 @@ set1 = []
 set2 = []
 set3 = []
 amount = [0, 0, 20, 100.50, 2384, 8584, 10000000]
+mylist = []
 
-prize1 = []
-prize2 = []
-prize3 = []
 
 class lotto:
     def __init__(self, master):
@@ -168,53 +166,178 @@ class lotto:
         self.lottoEnt = Entry(master, textvariable = result)
         self.lottoEnt.place(x=230, y=500)
         self.lottoEnt.config(state = "readonly")
-        self.lottobtn = Button(master, text = "Play", command = self.gen_num)
-        self.lottobtn.place(x= 100, y= 550)
+        self.lottobtn = Button(master, text = "Play", borderwidth = 3, command = self.gen_num)
+        self.lottobtn.place(x= 50, y= 550)
+        self.playagainbtn = Button(master, text = "Play Again", borderwidth = 3, command = self.playAgain)
+        self.playagainbtn.place(x=120, y=550)
+        self.covertbtn = Button(master, text = "Covert Currency", borderwidth = 3, command = self.covert)
+        self.covertbtn.place(x=230, y=550)
+        self.covertbtn.config(state = "disabled")
+        self.calmbtn = Button(master, text = "Calm Prize", borderwidth = 3)
+        self.calmbtn.place(x=380, y=550)
+        self.calmbtn.config(state = "disabled")
 
         self.result1 = Label(master)
         self.result1.place(x=20, y=600)
         self.result1.config(bg = "#f8db19")
         self.result2 = Label(master)
-        self.result2.place(x=20, y=630)
+        self.result2.place(x=170, y=600)
         self.result2.config(bg = "#f8db19")
         self.result3 = Label(master)
-        self.result3.place(x=20, y=660)
+        self.result3.place(x=320, y=600)
         self.result3.config(bg = "#f8db19")
         self.total = Label(master)
-        self.total.place(x=300, y=660)
+        self.total.place(x=20, y=700)
         self.total.config(bg = "#f8db19")
+
 
     # Lotto Generator Function
     def gen_num(self):
-        global mylist
+        global match, match2, match3
+        amount = [0, 0, 20, 100.50, 2384, 8584, 10000000]
+        mylist.clear()
+        x = 0
         if len(set3) != 6:
-            messagebox.showerror("Error", "Complete All The Sets")
+            messagebox.showerror("Error", "Complete All Sets")
             self.lottoEnt.config(state = "readonly")
         else:
-             x = 0
-             mylist = []
              while x < 6:
-                 numbers = random.randint(1, 49)
-                 if numbers not in mylist:
-                     mylist.append(numbers)
-                     x = x + 1
+                 lotto = random.randint(1, 49)
+                 if lotto not in mylist:
+                     mylist.append(lotto)
+                 x = x + 1
              else:
-                  x = x - 1
-                  mylist.sort()
-                  result.set(mylist)
-             self.lottoEnt.config(state = "normal")
-        for x in mylist:
-            if x in set1:
-                prize1.append(x)
-                self.result1 .config(text=str(len(prize1)) + "  R" + str(amount[len(prize1)]))
-        for x in mylist:
-            if x in set2:
-                prize2.append(x)
-                self.result2 .config(text=str(len(prize2)) + "  R" + str(amount[len(prize2)]))
-        for x in mylist:
-            if x in set3:
-                prize3.append(x)
-                self.result3 .config(text=str(len(prize3)) + "  R" + str(amount[len(prize3)]))
+                 x = x - 1
+                 mylist.sort()
+                 result.set(mylist)
+                 self.lottoEnt.config(state = "normal")
+                 self.lottobtn.config(state = "disabled")
+                 self.playagainbtn.config(state = "normal")
+                 self.covertbtn.config(state = "normal")
+                 self.calmbtn.config(state = "normal")
+
+        if len(set1) == 6 and len(set2) == 6 and len(set3) == 6:
+            # gets the value visible in the sets and the generated numbers
+            match = set(set1).intersection(set(mylist))
+            match2 = set(set2).intersection(set(mylist))
+            match3 = set(set3).intersection(set(mylist))
+            claim_prize = amount
+
+            if len(match) == 0:
+                self.result1.config(text = "First Set: "
+                                           "\nMatches: 0"
+                                           "\nSo You`ve Won: R" + str(claim_prize[0]))
+            elif len(match) == 1:
+                self.result1.config(text = "First Set:"
+                                           "\nMatches: " + str(len(match)) +" "+str(match) +
+                                           "\nSo You`ve won: R" + str(claim_prize[1]))
+            elif len(match) == 2:
+                self.result1.config(text = "First Set:"
+                                           "\nMatches: " + str(len(match)) +" "+str(match) +
+                                           "\nSo You`ve won: R" + str(claim_prize[2]))
+            elif len(match) == 3:
+                self.result1.config(text = "First Set:"
+                                           "\nMatches: " + str(len(match)) +" "+str(match) +
+                                           "\nSo You`ve won: R" + str(claim_prize[3]))
+
+            elif len(match) == 4:
+                self.result1.config(text = "First Set:"
+                                           "\nMatches: " + str(len(match)) +" "+str(match) +
+                                           "\nSo You`ve won: R" + str(claim_prize[4]))
+
+            elif len(match) == 5:
+                self.result1.config(text = "First Set:"
+                                           "\nMatches: " + str(len(match)) +" "+str(match) +
+                                           "\nSo You`ve won: R" + str(claim_prize[5]))
+
+            elif len(match) == 6:
+                self.result1.config(text = "First Set:"
+                                           "\nMatches: " + str(len(match)) +" "+str(match) +
+                                           "\nSo You`ve won: R" + str(claim_prize[6]))
+
+            if len(match2) == 0:
+                self.result2.config(text = "Second Set: "
+                                           "\nMatches: 0"
+                                           "\nSo You`ve Won: R"+ str(claim_prize[0]))
+            elif len(match2) == 1:
+                self.result2.config(text = "Second Set: " 
+                                           "\nMatches: " + str(len(match2)) +" "+str(match2) +
+                                           "\nSo You`ve won: R" + str(claim_prize[1]))
+            elif len(match2) == 2:
+                self.result2.config(text = "Second Set: "
+                                           "\nMatches: " + str(len(match2)) +" "+str(match2) +
+                                           "\nSo You`ve won: R" + str(claim_prize[2]))
+            elif len(match2) == 3:
+                self.result2.config(text = "Second Set: "
+                                           "\nMatches: " + str(len(match2)) +" "+str(match2) +
+                                           "\nSo You`ve won: R" + str(claim_prize[3]))
+            elif len(match2) == 4:
+                self.result2.config(text = "Second Set: "
+                                           "\nMatches: " + str(len(match2)) +" "+ str(match2) +
+                                           "\nSo You`ve won: R" + str(claim_prize[4]))
+            elif len(match2) == 5:
+                self.result2.config(text = "Second Set: "
+                                           "\nMatches: " + str(len(match2)) +" "+str(match2) +
+                                           "\nSo You`ve won: R" + str(claim_prize[5]))
+            else:
+                self.result2.config(text = "Second Set: "
+                                           "\nMatches: " + str(len(match2)) +" "+str(match2) +
+                                           "\nSo You`ve won: R" + str(claim_prize[6]))
+
+            if len(match3) == 0:
+                self.result3.config(text = "Third Set:"
+                                           "\nMatches: 0"
+                                           "\nSo You`ve Won: R"+ str(claim_prize[0]))
+            elif len(match3) == 1:
+                self.result3.config(text = "Third Set: " 
+                                           "\nMatches: " + str(len(match3)) +" "+str(match3) +
+                                           "\nSo You`ve won: R" + str(claim_prize[1]))
+            elif len(match3) == 2:
+                self.result3.config(text = "Third Set: "
+                                           "\nMatches: " + str(len(match3)) +" "+str(match3) +
+                                           "\nSo You`ve won: R" + str(claim_prize[2]))
+            elif len(match3) == 3:
+                self.result3.config(text = "Third Set: "
+                                           "\nMatches: " + str(len(match3)) +" "+str(match3) +
+                                           "\nSo You`ve won: R" + str(claim_prize[3]))
+            elif len(match3) == 4:
+                self.result3.config(text = "Third Set: "
+                                           "\nMatches: " + str(len(match3)) +" "+str(match3) +
+                                           "\nSo You`ve won: R" + str(claim_prize[4]))
+            elif len(match3) == 5:
+                self.result3.config(text = "Third Set: "
+                                           "\nMatches: " + str(len(match3)) +" "+str(match3) +
+                                           "\nSo You`ve won: R" + str(claim_prize[5]))
+            else:
+                self.result3.config(text = "Third Set: "
+                                           "\nMatches: " + str(len(match3)) +" "+str(match3) +
+                                           "\nSo You`ve won: R" + str(claim_prize[6]))
+        self.total.config(text = "Total: R"+ str(int(amount[len(match)])+int(amount[len(match2)])+int(amount[len(match3)])))
+
+    def playAgain(self):
+        self.numEn1.config(text="")
+        set1.clear()
+        self.numEn2.config(text="")
+        set2.clear()
+        self.numEn3.config(text="")
+        set3.clear()
+        self.lottoEnt.delete(0, END)
+        self.lottobtn.config(state="normal")
+        self.result1.config(text="")
+        self.result2.config(text="")
+        self.result3.config(text="")
+        self.total.config(text="")
+        self.lottoEnt.config(state ="readonly")
+        self.covertbtn.config(state = "disabled")
+        self.calmbtn.config(state = "disabled")
+
+    def covert(self):
+        messagebox.showinfo("Going To Corvert", "Remember You How Much You Won""The Game Will Reset Once You Leave")
+        root.destroy()
+
+    def calm(self):
+        root.destroy()
+
 
 x = lotto(root)
 root.mainloop()

@@ -28,7 +28,7 @@ class Player:
         self.email_lab = Label(master, text = "Email:")
         self.email_lab.place(x=125, y=100)
         self.email_lab.config(bg = "light green")
-        self.email_ent = Entry(master)
+        self.email_ent = Entry(master, width = "23")
         self.email_ent.place(x=200, y=100)
         self.id_btn = Button(master, text = "ID Number", command = self.email_check)
         self.id_btn.place(x=75, y=195)
@@ -38,6 +38,7 @@ class Player:
         self.id_ent.place(x=200, y=200)
         self.button1 = Button(master, text = "Verify", command = self.calculate_age ,borderwidth = "3")
         self.button1.place(x=100, y=300, width = 100)
+        self.button1.config(bg="yellow")
 
     def email_check(self):
         if re.search(regex, self.email_ent.get()):
