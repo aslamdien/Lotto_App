@@ -43,13 +43,12 @@ class covert:
         self.new_curr_amountEnt.place(x=200, y=230)
         self.convetbtn = Button(master, text = 'Covert', borderwidth = 3, command = self.covertSwitch)
         self.convetbtn.place(x=200, y=180)
-        self.calm = Button(root, text = "Calm Prize", borderwidth = 3)
+        self.calm = Button(root, text = "Calm Prize", command= self.toClaim, borderwidth = 3)
         self.calm.place(x =200, y=260 )
-        self.clear = Button(master, text = "Clear", borderwidth = 3)
+        self.clear = Button(master, text = "Clear", command = self.clear, borderwidth = 3)
         self.clear.place(x=330, y=260)
 
     def currencyConvert(self, from_currency, to_currency, amount):
-
         amount = round(amount * conversion_rates[to_currency], 2)
         return amount
 
@@ -66,6 +65,15 @@ class covert:
             self.amountEnt.delete(0, END)
         except KeyError:
             messagebox.showerror("Error", "Please Select Currency")
+
+    def clear(self):
+        self.amountEnt.delete(0, END)
+        self.currency_cb.set('Select')
+        self.new_curr_amountEnt.delete(0, END)
+
+    def toClaim(self):
+        root.destroy()
+        import Bank
 
 
 x = covert(root)
