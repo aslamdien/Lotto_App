@@ -42,6 +42,8 @@ class Player:
         self.button1 = Button(master, text = "Verify", command = self.valid_age ,borderwidth = "3")
         self.button1.place(x=100, y=300, width = 100)
         self.button1.config(bg="yellow")
+        self.button2 = Button(master, text = "Clear", borderwidth= "3")
+        self.button2.place(x= 300, y=300)
 
     def email_check(self):
         if re.search(regex, self.email_ent.get()):
