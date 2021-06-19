@@ -54,7 +54,7 @@ class Player:
     def valid_age(self):
         player_Id = self.name_ent.get().strip() + self.id_ent.get()[2:4]
         player = open('details.txt', 'a')
-        player.write("Username: " + self.name_ent.get())
+        player.write("Player Name: " + self.name_ent.get() + " " + self.lastname_ent.get())
         player.write('\n')
         player.write("Email: " + self.email_ent.get())
         player.write('\n')
@@ -62,21 +62,21 @@ class Player:
         player.write('\n')
         player.write("Player ID: " + player_Id)
         player.write('\n')
-        senders_email = "aslamdien90@gmail.com"
+        senders_email = 'aslamdien90@gmail.com'
         receivers_email = self.email_ent.get()
-        password = "nitrocharge"
+        password = 'nitrocharge'
+        subject = "Player ID"
         try:
             for i in range(len(self.email_ent.get())):
-                if self.email_check():
-                    subject = "Hello Player"
+                if re.search(regex,self.email_ent.get()):
                     msg = MIMEMultipart()
                     msg["From"] = senders_email
                     msg["To"] = receivers_email
                     msg["Subject"] = subject
 
-                    message = ("This Is Your Player ID: " + str(player_Id))
-                    message = message
-                    msg.attach(MIMEText(message, 'plain'))
+                    body = "Hi There " + str(self.name_ent.get())+"\n"
+                    body = body + "This Is Your Player ID: " + str(player_Id)
+                    msg.attach(MIMEText(body, 'plain'))
                     text = msg.as_string()
                     s = smtplib.SMTP("smtp.gmail.com", 587)
 
@@ -90,12 +90,14 @@ class Player:
             age = str((datetime.today() - id_number.date_of_birth) // timedelta(365.25))
 
             if int(age) >= 18:
-                messagebox.showinfo("Qualification", "Let`s Play")
+                messagebox.showinfo("OK", "You Should Be Receiving An Email With Player ID Soon")
                 player.close()
                 root.destroy()
+                import login_in
+
             elif int(age) < 18:
                 year = str(int(age) - 18)
-                messagebox.showinfo("Qualification", "Your Are Too Young to Play. Please Try Again In" + year + " Year(s)")
+                messagebox.showinfo("Sorry", "Your Are Too Young to Play. Please Try Again In " + year + " Year(s)")
 
         except ValueError:
             if str(self.id_ent.get()) != "":

@@ -173,9 +173,9 @@ class lotto:
         self.covertbtn = Button(master, text = "Covert Currency", borderwidth = 3, command = self.covert)
         self.covertbtn.place(x=230, y=550)
         self.covertbtn.config(state = "disabled")
-        self.calmbtn = Button(master, text = "Calm Prize", borderwidth = 3)
-        self.calmbtn.place(x=380, y=550)
-        self.calmbtn.config(state = "disabled")
+        self.claimbtn = Button(master, text = "Calm Prize", borderwidth = 3, command = self.claim)
+        self.claimbtn.place(x=380, y=550)
+        self.claimbtn.config(state = "disabled")
 
         self.result1 = Label(master)
         self.result1.place(x=20, y=600)
@@ -214,7 +214,7 @@ class lotto:
                  self.lottobtn.config(state = "disabled")
                  self.playagainbtn.config(state = "normal")
                  self.covertbtn.config(state = "normal")
-                 self.calmbtn.config(state = "normal")
+                 self.claimbtn.config(state = "normal")
 
         if len(set1) == 6 and len(set2) == 6 and len(set3) == 6:
             # gets the value visible in the sets and the generated numbers
@@ -312,7 +312,21 @@ class lotto:
                 self.result3.config(text = "Third Set: "
                                            "\nMatches: " + str(len(match3)) +" "+str(match3) +
                                            "\nSo You`ve won: R" + str(claim_prize[6]))
-        self.total.config(text = "Total: R"+ str(int(amount[len(match)])+int(amount[len(match2)])+int(amount[len(match3)])))
+        total = (int(amount[len(match)])+int(amount[len(match2)])+int(amount[len(match3)]))
+        self.total.config(text = "Total: R"+ str(total))
+        player = open('details.txt', 'a')
+        player.write("Lotto Results")
+        player.write('\n')
+        player.write("First Set: "+ str(set1))
+        player.write('\n')
+        player.write("Second Set: " + str(set2))
+        player.write('\n')
+        player.write("Third Set: " + str(set3))
+        player.write('\n')
+        player.write("Lotto Numbers: "+ self.lottoEnt.get())
+        player.write('\n')
+        player.write("Winnings: R"+ str(total))
+        player.write('\n')
 
     def playAgain(self):
         self.numEn1.config(text="")
@@ -329,14 +343,17 @@ class lotto:
         self.total.config(text="")
         self.lottoEnt.config(state ="readonly")
         self.covertbtn.config(state = "disabled")
-        self.calmbtn.config(state = "disabled")
+        self.claimbtn.config(state = "disabled")
 
     def covert(self):
         messagebox.showinfo("Going To Corvert", "Remember You How Much You Won""The Game Will Reset Once You Leave")
         root.destroy()
+        import Currency_Coverter
 
-    def calm(self):
+    def claim(self):
+        messagebox.showinfo("Claim","To Claim Your Prize, We need Your Banking Details")
         root.destroy()
+        import Bank
 
 
 x = lotto(root)

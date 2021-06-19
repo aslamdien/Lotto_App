@@ -49,7 +49,6 @@ class covert:
         self.clear.place(x=330, y=260)
 
     def currencyConvert(self, from_currency, to_currency, amount):
-
         amount = round(amount * conversion_rates[to_currency], 2)
         return amount
 
