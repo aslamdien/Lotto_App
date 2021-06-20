@@ -1,8 +1,7 @@
-from player_id import *
 from tkinter import *
 from tkinter import messagebox
 
-
+global player_id
 
 root = Tk()
 root.title("Login Screen")
@@ -13,6 +12,9 @@ regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 my_pic = PhotoImage(file = "resize-16240941251614889765southafricalottologoremovebgpreview2.png")
 background = Label(root, image = my_pic, bg = "#f8db19").place(x=130, y=5)
+
+
+
 
 class login:
     def  __init__(self,master):
@@ -37,13 +39,35 @@ class login:
         self.registerbtn.config(bg = "yellow")
 
     def login(self):
-             root.destroy()
-             import lotto_game
+        try:
+            with open('details.txt') as files:
+                for line in files:
+                    file = line.split()
+                player = file
+                files.close()
+            if player[2] == str(self.playIdEnt.get()):
+                messagebox.showinfo("Access Granted", "Let The Games Begin!!!")
+                root.destroy()
+                import lotto_game
+
+        except IndexError:
+            if player[2] != str(self.playIdEnt.get()):
+                messagebox.showerror("Error", "Must Have A Valid Player ID")
+                self.playIdEnt.delete(0, END)
+
+        except ValueError:
+            if self.playIdEnt == "":
+                messagebox.showerror("Error", "Please Your Player ID")
+
+
 
     def signUp(self):
-        player
         root.destroy()
         import player_id
 
+
 x = login(root)
 root.mainloop()
+
+
+

@@ -21,7 +21,6 @@ mylist = []
 
 class lotto:
 
-
     def __init__(self, master):
         def adding(add):
             if len(set1) < 6 and add not in set1:
@@ -315,8 +314,8 @@ class lotto:
                                            "\nMatches: " + str(len(match3)) +" "+str(match3) +
                                            "\nSo You`ve won: R" + str(claim_prize[6]))
         total = (int(amount[len(match)])+int(amount[len(match2)])+int(amount[len(match3)]))
-        self.total.config(text = "Total: R"+ str(total)).get()
-        player = open('details.txt', 'a')
+        self.total.config(text = "Total: R"+ str(total))
+        player = open('details_lotto_winnings.txt', 'a')
         player.write("Lotto Results")
         player.write('\n')
         player.write("First Set: "+ str(set1))
@@ -327,7 +326,7 @@ class lotto:
         player.write('\n')
         player.write("Lotto Numbers: "+ self.lottoEnt.get())
         player.write('\n')
-        player.write("Winnings: R"+ str(total))
+        player.write("Winnings: R " + str(total))
         player.write('\n')
 
         return total
