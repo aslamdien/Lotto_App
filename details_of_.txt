@@ -1,2 +1,14 @@
 New Amount From AED
 Amount: 5.16
+New Amount From AED
+Amount: 5.14
+New Amount From AFN
+Amount: 111.39
+New Amount From AFN
+Amount: 111.39
+New Amount From Select
+Amount: 
+New Amount From AFN
+Amount: 111.39
+New Amount From AED
+Amount: 5.14

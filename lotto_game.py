@@ -1,7 +1,8 @@
 from tkinter import *
 import random
 from tkinter import messagebox
-
+from playsound import playsound
+playsound('3, 2, 1 Go!.mp3')
 root = Tk()
 root.title("Lotto Game")
 root.geometry("500x800")
@@ -36,28 +37,33 @@ class lotto:
 
             else:
                 if len(set3) == 6:
+                    playsound('Error 404.mp3')
                     messagebox.showinfo("Woah!!!","Sets Are Completed")
                 else:
+                    playsound('Fail sound.mp3')
                     messagebox.showerror("Sorry","Your Already Picked That number")
 
+        self.frame = LabelFrame(root)
+        self.frame.place(x=20, y=350, height = 120, width = 450)
+        self.frame.config(bg = "#ffe015")
         self.lab = Label(master, text = "Select Your Numbers:", font = "Georgia 15")
         self.lab.place(x=135, y=330)
-        self.lab.config(bg = "#f8db19")
+        self.lab.config(bg = "#ffe015")
         self.numlab1 = Label(master, text = "First Lotto Numbers Set:")
         self.numlab1.place(x=30, y=370)
-        self.numlab1.config(bg = "#f8db19")
+        self.numlab1.config(bg = "#ffe015")
         self.numEn1 = Label(master, text = set1, width = "25")
         self.numEn1.place(x=230, y=370)
         self.numEn1.config(bg = "white")
         self.numlab2 = Label(master, text = "Second Lotto Number Set:")
         self.numlab2.place(x=30, y=400)
-        self.numlab2.config(bg = "#f8db19")
+        self.numlab2.config(bg = "#ffe015")
         self.numEn2 = Label(master, text = set2, width = "25")
         self.numEn2.place(x=230, y=400)
         self.numEn2.config(bg = "white")
         self.numlab3 = Label(master, text = "Third Lotto Number Set:")
         self.numlab3.place(x=30, y=430)
-        self.numlab3.config(bg = "#f8db19")
+        self.numlab3.config(bg = "#ffe015")
         self.numEn3 = Label(master, text = set3, width = "25")
         self.numEn3.place(x=230, y=430)
         self.numEn3.config(bg = "white")
@@ -169,8 +175,10 @@ class lotto:
         self.lottoEnt.config(state = "readonly")
         self.lottobtn = Button(master, text = "Play", borderwidth = 3, command = self.gen_num)
         self.lottobtn.place(x= 50, y= 550)
+
         self.playagainbtn = Button(master, text = "Play Again", borderwidth = 3, command = self.playAgain)
         self.playagainbtn.place(x=120, y=550)
+        self.playagainbtn.config(state = "disabled")
         self.covertbtn = Button(master, text = "Covert Currency", borderwidth = 3, command = self.covert)
         self.covertbtn.place(x=230, y=550)
         self.covertbtn.config(state = "disabled")
@@ -199,10 +207,12 @@ class lotto:
         mylist.clear()
         x = 0
         if len(set3) != 6:
+            playsound('Error 404.mp3')
             messagebox.showerror("Error", "Complete All Sets")
             self.lottoEnt.config(state = "readonly")
         else:
-             while x < 6:
+             playsound('Drum Roll Please.mp3')
+             while len(mylist) < 6:
                  lotto = random.randint(1, 49)
                  if lotto not in mylist:
                      mylist.append(lotto)
@@ -211,6 +221,7 @@ class lotto:
                  x = x - 1
                  mylist.sort()
                  result.set(mylist)
+
                  self.lottoEnt.config(state = "normal")
                  self.lottobtn.config(state = "disabled")
                  self.playagainbtn.config(state = "normal")
@@ -315,7 +326,10 @@ class lotto:
                                            "\nSo You`ve won: R" + str(claim_prize[6]))
         total = (int(amount[len(match)])+int(amount[len(match2)])+int(amount[len(match3)]))
         self.total.config(text = "Total: R"+ str(total))
+
+
         player = open('details_lotto_winnings.txt', 'a')
+        player.write('\n')
         player.write("Lotto Results")
         player.write('\n')
         player.write("First Set: "+ str(set1))
@@ -328,8 +342,9 @@ class lotto:
         player.write('\n')
         player.write("Winnings: R " + str(total))
         player.write('\n')
+        player.close()
 
-        return total
+        playsound('Applause Crowd Cheering.mp3')
 
     def playAgain(self):
         self.numEn1.config(text="")
@@ -344,12 +359,13 @@ class lotto:
         self.result2.config(text="")
         self.result3.config(text="")
         self.total.config(text="")
+        self.playagainbtn.config(state = "disabled")
         self.lottoEnt.config(state ="readonly")
         self.covertbtn.config(state = "disabled")
         self.claimbtn.config(state = "disabled")
 
     def covert(self):
-        messagebox.showinfo("Going To Corvert", "Remember You How Much You Won""The Game Will Reset Once You Leave")
+        messagebox.showinfo("Going To Corvert","The Game Will Reset Once You Leave")
         root.destroy()
         import Currency_Coverter
 

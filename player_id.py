@@ -6,12 +6,14 @@ import re
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from playsound import playsound
 
 root = Tk()
 root.title("Player ID")
 root.geometry("500x400")
-root.config(bg = "light green")
 
+my_pic = PhotoImage(file = "lottoCard.png")
+background = Label(root, image = my_pic).place(x=0, y=0)
 
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
@@ -20,17 +22,17 @@ class Player:
     def __init__(self, master):
         self.name_lab = Label(master, text = "Please Enter First Name:")
         self.name_lab.place(x=5, y=5)
-        self.name_lab.config(bg = "light green")
+        self.name_lab.config(bg = "white")
         self.name_ent = Entry(master)
         self.name_ent.place(x=200, y=5)
         self.lastname_lab = Label(master, text = "Surname:")
         self.lastname_lab.place(x=105, y=50)
-        self.lastname_lab.config(bg = "light green")
+        self.lastname_lab.config(bg = "white")
         self.lastname_ent = Entry(master)
         self.lastname_ent.place(x=200, y=50)
         self.email_lab = Label(master, text = "Email:")
         self.email_lab.place(x=125, y=100)
-        self.email_lab.config(bg = "light green")
+        self.email_lab.config(bg = "white")
         self.email_ent = Entry(master, width = "23")
         self.email_ent.place(x=200, y=100)
         self.id_btn = Button(master, text = "ID Number", command = self.email_check)
@@ -44,11 +46,13 @@ class Player:
         self.button1.config(bg="yellow")
         self.button2 = Button(master, text = "Clear", borderwidth= "3")
         self.button2.place(x= 300, y=300)
+        self.button2.config(bg = "yellow")
 
     def email_check(self):
         if re.search(regex, self.email_ent.get()):
             self.id_ent.config(state="normal")
         else:
+            playsound('Fail sound.mp3')
             messagebox.showerror("Email Error", "Please Enter Email Address")
             self.id_ent.config(state = "readonly")
             self.email_ent.delete(0, END)

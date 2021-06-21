@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 
+from playsound import playsound
+
 global player_id
 
 root = Tk()
@@ -12,8 +14,6 @@ regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 my_pic = PhotoImage(file = "resize-16240941251614889765southafricalottologoremovebgpreview2.png")
 background = Label(root, image = my_pic, bg = "#f8db19").place(x=130, y=5)
-
-
 
 
 class login:
@@ -46,20 +46,20 @@ class login:
                 player = file
                 files.close()
             if player[2] == str(self.playIdEnt.get()):
+                playsound('BellDing Sound Effect.mp3')
                 messagebox.showinfo("Access Granted", "Let The Games Begin!!!")
                 root.destroy()
                 import lotto_game
 
-        except IndexError:
-            if player[2] != str(self.playIdEnt.get()):
-                messagebox.showerror("Error", "Must Have A Valid Player ID")
+            elif player[2] != str(self.playIdEnt.get()):
+                playsound("Intruder Alert.mp3")
+                messagebox.showerror("Error", "Must Have A Valid Player ID \nSign Up if You Are not Registered")
                 self.playIdEnt.delete(0, END)
 
-        except ValueError:
-            if self.playIdEnt == "":
-                messagebox.showerror("Error", "Please Your Player ID")
-
-
+        except TypeError:
+            if str(self.playIdEnt.get()) == "":
+                messagebox.showerror("Error!", "Must Have A Valid Player ID \nSign Up if You Are not Registered")
+                self.playIdEnt.delete(0, END)
 
     def signUp(self):
         root.destroy()

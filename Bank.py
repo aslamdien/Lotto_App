@@ -7,12 +7,14 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 root = Tk()
-root.title("Calming Your Cash")
+root.title("Claiming Your Cash")
 root.geometry("500x400")
 
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
 my_pic = PhotoImage(file = "images.png")
-background = Label(root, image = my_pic, bg = "#f8db19").place(x=0, y=0)
+background = Label(root, image = my_pic).place(x=0, y=0)
+
 class banking:
     def __init__(self, master):
         with open('details_lotto_winnings.txt') as files:
@@ -21,21 +23,27 @@ class banking:
             player = file
             files.close()
             game = player[2]
-
+        # Sub Heading
         self.subhead = Label(master, text = "Banking Details" , font = "Georgia 15")
         self.subhead.place(x= 170, y=10)
+
+        #Account Holder Name
         self.accHolderlab = Label(master, text = "Account Holder:", font = "15")
         self.accHolderlab.place(x=100 ,y=50)
         self.accHolderEnt = Entry(master)
         self.accHolderEnt.place(x=250, y=50)
+
+
         self.accNumberlab = Label(master, text = "Bank Account Number:", font = "15")
         self.accNumberlab.place(x=40, y=100)
         self.accNumberEnt = Entry(master)
         self.accNumberEnt.place(x=250, y=100)
         self.selctBanklab = Label(master, text = "Bank:", font = "15")
         self.selctBanklab.place(x=180, y=150)
+
         self.winning = Entry(master)
         self.winning.insert(0, game)
+
         self.selctBank = ttk.Combobox(master)
         self.selctBank['values'] = ["ABSA", "Netbank", "FNB", "Capitec"]
         self.selctBank['state'] = 'normal'
@@ -62,7 +70,7 @@ class banking:
         player.write('\n')
         player.write("Bank: " + self.selctBank.get())
         player.write('\n')
-        player.write("Your Winnings: R" + self.winning.get())
+        player.write("Your Winnings: " + self.winning.get())
         player.write('\n')
 
 
@@ -70,9 +78,10 @@ class banking:
         receivers_email = self.email_ent.get()
         password = 'nitrocharge'
         subject = "Claim Prize"
-        try:
-            for i in range(len(self.email_ent.get())):
-                if re.search(regex, self.email_ent.get()):
+
+        for i in range(len(self.email_ent.get())):
+            messagebox.showinfo("Congrats", "You Should Receive An Email With Your Winning Amount Very Soon")
+            if re.search(regex, self.email_ent.get()):
                     msg = MIMEMultipart()
                     msg["From"] = senders_email
                     msg["To"] = receivers_email
@@ -81,7 +90,7 @@ class banking:
                     body = "Account Holder: " + str(self.accHolderEnt.get())+"\n"
                     body = body + "Account Number: " + self.accNumberEnt.get()+"\n"
                     body = body + "Bank: " + str(self.selctBank.get())+"\n"
-                    body = body + "Amount: R" + str(self.winning.get())
+                    body = body + "Amount From Currency Selected: " + str(self.winning.get())
                     msg.attach(MIMEText(body, 'plain'))
                     text = msg.as_string()
                     s = smtplib.SMTP("smtp.gmail.com", 587)
@@ -91,12 +100,12 @@ class banking:
                     s.login(senders_email, password)
                     s.sendmail(senders_email, receivers_email, text)
                     s.quit()
-                    break
-            player.close()
-        except ValueError:
-            if str(self.email_ent.get()) != "":
-                messagebox.showerror("ID ERROR!!!", "Please Enter Email Address")
-                self.email_ent.delete(0, END)
+
+        player.close()
+        root.destroy()
+        import lotto_game
+        if self.email_ent.get() == "":
+            messagebox.showerror("Error!", "Please Give An Email Address")
 
 
 x = banking(root)

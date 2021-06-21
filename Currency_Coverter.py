@@ -2,11 +2,16 @@ from tkinter import *
 from tkinter import ttk
 import requests
 from tkinter import messagebox
-
+from playsound import playsound
 root = Tk()
 root.title("Covert Your Winnings")
-root.geometry("500x500")
+root.geometry("500x400")
 root.config(bg = "blue")
+
+
+my_pic = PhotoImage(file = "currency.png")
+background = Label(root, image = my_pic).place(x=0, y=0)
+
 
 result = StringVar()
 
@@ -30,13 +35,13 @@ class covert:
             files.close()
             game = player[2]
 
-        self.amountlab = Label(master, text = "Please Enter Amount:")
-        self.amountlab.place(x=5, y=50)
+        self.amountlab = Label(master, text = "Amount:")
+        self.amountlab.place(x=113, y=50)
         self.amountEnt = Entry(master)
         self.amountEnt.place(x=200, y=50)
         self.amountEnt.insert(0, game)
-        self.covertFrom = Label(master, text = "Covert Currency Of")
-        self.covertFrom.place(x=5, y=80)
+        self.covertFrom = Label(master, text = "Covert Currency Of:")
+        self.covertFrom.place(x=40, y=80)
         self.currZAR = Label(master, text = "ZAR", width = "20", bg = "white")
         self.currZAR.place(x=200, y=80)
 
@@ -56,6 +61,7 @@ class covert:
         self.convetbtn.place(x=200, y=180)
         self.calm = Button(master, text = "Calm Prize", command= self.toClaim, borderwidth = 3)
         self.calm.place(x =200, y=260 )
+        self.calm.config(state = "disabled")
         self.clear = Button(master, text = "Clear", command = self.clear, borderwidth = 3)
         self.clear.place(x=330, y=260)
 
@@ -64,8 +70,8 @@ class covert:
         return amount
 
     def covertSwitch(self):
-
         try:
+            playsound('Cash Register.mp3')
             amount = float(self.amountEnt.get())
             from_curr = conversion_rates
             to_curr = self.currency_cb.get()
@@ -76,22 +82,27 @@ class covert:
             messagebox.showerror('Error!!!', "No or Invalid Amount Detected")
             self.amountEnt.delete(0, END)
         except KeyError:
+
             messagebox.showerror("Error", "Please Select Currency")
 
-        player = open('details_of_.txt', 'a')
+        player = open('details_lotto_winnings.txt', 'a')
         player.write("New Amount From " + str(self.currency_cb.get()))
         player.write('\n')
-        player.write("Amount: " + self.new_curr_amountEnt.get())
+        player.write("New Amount: " + self.new_curr_amountEnt.get())
         player.write('\n')
+        self.calm.config(state = "normal")
 
     def clear(self):
-        self.amountEnt.delete(0, END)
         self.currency_cb.set('Select')
         self.new_curr_amountEnt.delete(0, END)
+        self.calm.config(state="disabled")
 
     def toClaim(self):
-        root.destroy()
-        import Bank
+        try:
+            root.destroy()
+            import Bank
+        except KeyError:
+            messagebox.showerror("Error","Currency Not Converted")
 
 
 x = covert(root)
