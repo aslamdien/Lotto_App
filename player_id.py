@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 
 root = Tk()
 root.title("Player ID")
-root.geometry("500x500")
+root.geometry("500x400")
 root.config(bg = "light green")
 
 
@@ -42,6 +42,8 @@ class Player:
         self.button1 = Button(master, text = "Verify", command = self.valid_age ,borderwidth = "3")
         self.button1.place(x=100, y=300, width = 100)
         self.button1.config(bg="yellow")
+        self.button2 = Button(master, text = "Clear", borderwidth= "3")
+        self.button2.place(x= 300, y=300)
 
     def email_check(self):
         if re.search(regex, self.email_ent.get()):
@@ -67,30 +69,30 @@ class Player:
         password = 'nitrocharge'
         subject = "Player ID"
         try:
-            for i in range(len(self.email_ent.get())):
-                if re.search(regex,self.email_ent.get()):
-                    msg = MIMEMultipart()
-                    msg["From"] = senders_email
-                    msg["To"] = receivers_email
-                    msg["Subject"] = subject
-
-                    body = "Hi There " + str(self.name_ent.get())+"\n"
-                    body = body + "This Is Your Player ID: " + str(player_Id)
-                    msg.attach(MIMEText(body, 'plain'))
-                    text = msg.as_string()
-                    s = smtplib.SMTP("smtp.gmail.com", 587)
-
-                    s.starttls()
-
-                    s.login(senders_email, password)
-                    s.sendmail(senders_email, receivers_email, text)
-                    s.quit()
-                    break
             id_number = rsaidnumber.parse(self.id_ent.get())
             age = str((datetime.today() - id_number.date_of_birth) // timedelta(365.25))
 
             if int(age) >= 18:
                 messagebox.showinfo("OK", "You Should Be Receiving An Email With Player ID Soon")
+                for i in range(len(self.email_ent.get())):
+                    if re.search(regex, self.email_ent.get()):
+                        msg = MIMEMultipart()
+                        msg["From"] = senders_email
+                        msg["To"] = receivers_email
+                        msg["Subject"] = subject
+
+                        body = "Hi There " + str(self.name_ent.get()) + "\n"
+                        body = body + "This Is Your Player ID: " + str(player_Id)
+                        msg.attach(MIMEText(body, 'plain'))
+                        text = msg.as_string()
+                        s = smtplib.SMTP("smtp.gmail.com", 587)
+
+                        s.starttls()
+
+                        s.login(senders_email, password)
+                        s.sendmail(senders_email, receivers_email, text)
+                        s.quit()
+                        break
                 player.close()
                 root.destroy()
                 import login_in
