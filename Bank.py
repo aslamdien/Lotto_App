@@ -101,7 +101,7 @@ class banking:
                     s.sendmail(senders_email, receivers_email, text)
                     s.quit()
 
-        player.close()
+                    player.close()
         root.destroy()
         import lotto_game
         if self.email_ent.get() == "":

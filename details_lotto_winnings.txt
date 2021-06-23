@@ -1,0 +1,40 @@
+
+Lotto Results
+First Set: [31, 20, 19, 30, 29, 40]
+Second Set: [39, 28, 17, 5, 6, 7]
+Third Set: [19, 20, 8, 9, 21, 22]
+Lotto Numbers: 10 12 33 40 48 49
+Winnings: R 0
+
+Lotto Results
+First Set: [49, 38, 27, 16, 4, 5]
+Second Set: [17, 28, 39, 36, 37, 48]
+Third Set: [49, 47, 46, 24, 12, 1]
+Lotto Numbers: 5 9 10 13 41 47
+Winnings: R 0
+
+Lotto Results
+First Set: [39, 40, 41, 42, 31, 30]
+Second Set: [29, 40, 41, 42, 31, 30]
+Third Set: [29, 40, 41, 42, 31, 30]
+Lotto Numbers: 9 12 13 18 43 48
+Winnings: R 0
+
+Lotto Results
+First Set: [49, 38, 27, 16, 4, 5]
+Second Set: [17, 28, 39, 40, 29, 18]
+Third Set: [6, 48, 47, 46, 35, 36]
+Lotto Numbers: 6 11 30 38 47 48
+Winnings: R 100
+New Amount From ALL
+New Amount: 718.15
+New Amount From AFN
+New Amount: 3937.11
+New Amount From ARS
+New Amount: 4773.61
+New Amount From AWG
+New Amount: 89.91
+New Amount From HUF
+New Amount: 14918.27
+New Amount From USD
+New Amount: 50.23

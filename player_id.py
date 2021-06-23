@@ -20,16 +20,16 @@ regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 class Player:
 
     def __init__(self, master):
-        self.name_lab = Label(master, text = "Please Enter First Name:")
-        self.name_lab.place(x=5, y=5)
+        self.name_lab = Label(master, text = "Please Enter Name:")
+        self.name_lab.place(x=38, y=5)
         self.name_lab.config(bg = "white")
         self.name_ent = Entry(master)
         self.name_ent.place(x=200, y=5)
-        self.lastname_lab = Label(master, text = "Surname:")
-        self.lastname_lab.place(x=105, y=50)
-        self.lastname_lab.config(bg = "white")
-        self.lastname_ent = Entry(master)
-        self.lastname_ent.place(x=200, y=50)
+        self.username_lab = Label(master, text = "Username:")
+        self.username_lab.place(x=95, y=50)
+        self.username_lab.config(bg = "white")
+        self.username_ent = Entry(master)
+        self.username_ent.place(x=200, y=50)
         self.email_lab = Label(master, text = "Email:")
         self.email_lab.place(x=125, y=100)
         self.email_lab.config(bg = "white")
@@ -58,9 +58,13 @@ class Player:
             self.email_ent.delete(0, END)
 
     def valid_age(self):
-        player_Id = self.name_ent.get().strip() + self.id_ent.get()[2:4]
+        player_Id = self.name_ent.get().strip() + self.id_ent.get()[2:4] #Creating the PLayer ID
+        # What goes in the text file
         player = open('details.txt', 'a')
-        player.write("Player Name: " + self.name_ent.get() + " " + self.lastname_ent.get())
+        player.write('\n')
+        player.write("Player Name: " + self.name_ent.get())
+        player.write('\n')
+        player.write("Username: "+ self.username_ent.get())
         player.write('\n')
         player.write("Email: " + self.email_ent.get())
         player.write('\n')
@@ -68,6 +72,8 @@ class Player:
         player.write('\n')
         player.write("Player ID: " + player_Id)
         player.write('\n')
+
+        # Creating Email
         senders_email = 'aslamdien90@gmail.com'
         receivers_email = self.email_ent.get()
         password = 'nitrocharge'
@@ -86,6 +92,7 @@ class Player:
                         msg["Subject"] = subject
 
                         body = "Hi There " + str(self.name_ent.get()) + "\n"
+                        body = body + "Username: " + str(self.username_ent.get())+ "\n"
                         body = body + "This Is Your Player ID: " + str(player_Id)
                         msg.attach(MIMEText(body, 'plain'))
                         text = msg.as_string()
@@ -96,7 +103,6 @@ class Player:
                         s.login(senders_email, password)
                         s.sendmail(senders_email, receivers_email, text)
                         s.quit()
-                        break
                 player.close()
                 root.destroy()
                 import login_in
@@ -106,7 +112,7 @@ class Player:
                 messagebox.showinfo("Sorry", "Your Are Too Young to Play. Please Try Again In " + year + " Year(s)")
 
         except ValueError:
-            if str(self.id_ent.get()) != "":
+            if self.id_ent.get() == int:
                 messagebox.showerror("ID ERROR!!!", "Please Enter Valid Integer")
                 self.id_ent.delete(0, END)
 

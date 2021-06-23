@@ -5,7 +5,7 @@ from playsound import playsound
 playsound('3, 2, 1 Go!.mp3')
 root = Tk()
 root.title("Lotto Game")
-root.geometry("500x800")
+root.geometry("500x750")
 root.config(bg = "#f8db19")
 
 my_pic = PhotoImage(file = "thelogo-removebg-preview.png")
@@ -206,12 +206,13 @@ class lotto:
         amount = [0, 0, 20, 100.50, 2384, 8584, 10000000]
         mylist.clear()
         x = 0
-        if len(set3) != 6:
+        if len(set3) != 6: # Shows that all sets Must be completed before the game can start
             playsound('Error 404.mp3')
             messagebox.showerror("Error", "Complete All Sets")
             self.lottoEnt.config(state = "readonly")
         else:
              playsound('Drum Roll Please.mp3')
+             # Random numbers are picked and sorted in groups of 3
              while len(mylist) < 6:
                  lotto = random.randint(1, 49)
                  if lotto not in mylist:
@@ -326,7 +327,7 @@ class lotto:
                                            "\nSo You`ve won: R" + str(claim_prize[6]))
         total = (int(amount[len(match)])+int(amount[len(match2)])+int(amount[len(match3)]))
         self.total.config(text = "Total: R"+ str(total))
-
+        playsound('Applause Crowd Cheering.mp3')
 
         player = open('details_lotto_winnings.txt', 'a')
         player.write('\n')
@@ -344,7 +345,7 @@ class lotto:
         player.write('\n')
         player.close()
 
-        playsound('Applause Crowd Cheering.mp3')
+
 
     def playAgain(self):
         self.numEn1.config(text="")

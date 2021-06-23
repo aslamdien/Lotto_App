@@ -39,27 +39,23 @@ class login:
         self.registerbtn.config(bg = "yellow")
 
     def login(self):
-        try:
-            with open('details.txt') as files:
-                for line in files:
-                    file = line.split()
-                player = file
-                files.close()
-            if player[2] == str(self.playIdEnt.get()):
-                playsound('BellDing Sound Effect.mp3')
-                messagebox.showinfo("Access Granted", "Let The Games Begin!!!")
-                root.destroy()
-                import lotto_game
+        player = 0
+        with open('details.txt','r') as files:
+            for line in files:
+                if "Player ID" and self.playIdEnt.get() in line:
+                    player = str(line[11:-1])
 
-            elif player[2] != str(self.playIdEnt.get()):
-                playsound("Intruder Alert.mp3")
-                messagebox.showerror("Error", "Must Have A Valid Player ID \nSign Up if You Are not Registered")
-                self.playIdEnt.delete(0, END)
+        if player == self.playIdEnt.get():
+            playsound('BellDing Sound Effect.mp3')
+            messagebox.showinfo("Access Granted", "Let The Games Begin!!!")
+            root.destroy()
+            import lotto_game
 
-        except TypeError:
-            if str(self.playIdEnt.get()) == "":
-                messagebox.showerror("Error!", "Must Have A Valid Player ID \nSign Up if You Are not Registered")
-                self.playIdEnt.delete(0, END)
+        else:
+            playsound("Intruder Alert.mp3")
+            messagebox.showerror("Error", "Username and Player ID Do Not Match \nSign Up if You Are not Registered")
+            self.nameEnt.delete(0, END)
+            self.playIdEnt.delete(0, END)
 
     def signUp(self):
         root.destroy()
